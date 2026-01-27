@@ -144,7 +144,7 @@ const experiences = [
     },
     {
         timeframe: 'Oct 2024 – Mar 2025',
-        position: 'Unity Vehicle Simulation Developer (Repo Link)',
+        position: 'Unity Vehicle Simulation Developer',
         company: 'MOBOTIC GmbH',
         location: 'Remote',
         points: ['Developed Unity C# simulation features showcasing mobile robot capabilities for customer demos.', 'Implemented realistic 3D rendering and physics to accurately represent product behavior.'],
