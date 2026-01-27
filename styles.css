@@ -1,16 +1,33 @@
 :root {
-    --bg: #0b0f17;
-    --card: #121a2a;
-    --text: #e8eefc;
-    --muted: #aab6d3;
-    --link: #7aa2ff;
+    color-scheme: dark;
+
+    --bg: #293547;
+    --bg2: #000000;
+    --text: #e6edf3;
+    --muted: #b6c0cc;
+
+    --link: #d19a66;
+    --link-high: #ff8787;
+
+    --border: #293547;
+    --card-pad: 20px;
+    --radius: 16px;
 }
 
 * {
     box-sizing: border-box;
 }
+
+html {
+    min-height: 100%;
+    background: radial-gradient(1200px 800px at 20% 0%, var(--bg), var(--bg2));
+    background-attachment: fixed;
+    overscroll-behavior: none;
+}
+
 body {
     margin: 0;
+    min-height: 100%;
     font-family:
         ui-sans-serif,
         system-ui,
@@ -18,58 +35,111 @@ body {
         Segoe UI,
         Roboto,
         Arial;
-    background: radial-gradient(1200px 800px at 20% 0%, #142040, var(--bg));
+    background: transparent;
     color: var(--text);
+    line-height: 1.55;
 }
 
 .container {
     max-width: 820px;
-    margin: 48px auto;
+    margin: 56px auto;
     padding: 0 16px;
 }
 
-header {
-    margin-bottom: 24px;
-}
-h1 {
-    margin: 0 0 8px;
-    font-size: 42px;
-}
 p {
     margin: 0 0 12px;
+    max-width: 65ch;
     color: var(--muted);
 }
 
-.links a {
-    margin-right: 14px;
+h1 {
+    margin: 0 0 6px;
+    letter-spacing: -0.02em;
+}
+
+h2 {
+    margin: 0 0 12px;
+    letter-spacing: -0.01em;
+}
+
+a {
     color: var(--link);
     text-decoration: none;
 }
-.links a:hover {
-    text-decoration: underline;
+
+a:hover {
+    color: var(--link-high);
 }
 
+/* top links */
+.links {
+    display: flex;
+    gap: 14px;
+    flex-wrap: wrap;
+    margin-top: 8px;
+}
+
+.links a {
+    font-weight: 600;
+}
+
+/* your “clean card” look */
 .card {
-    background: rgba(18, 26, 42, 0.85);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    border-radius: 14px;
-    padding: 18px 18px;
-    margin: 14px 0;
-    backdrop-filter: blur(6px);
+    background: transparent;
+    border-radius: var(--radius);
+    padding: var(--card-pad);
+    margin: 16px 0;
+    border-left: 4px solid var(--border);
+    border-bottom: 4px solid var(--border);
 }
 
-ul {
-    margin: 10px 0 0;
+/* shared entry styles (Experience + Projects) */
+.entry-head {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    margin-bottom: 8px;
+}
+
+.entry-title {
+    font-weight: 800;
+    color: var(--text);
+}
+
+/* title link styling (if title contains an <a>) */
+.entry-title a {
+    color: var(--link);
+    text-decoration: none;
+}
+
+.entry-title a:hover {
+    color: var(--link-high);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+}
+
+.entry-meta {
+    font-size: 0.9rem;
+    color: var(--muted);
+}
+
+.entry-points {
+    margin: 0;
     padding-left: 18px;
 }
-li {
-    margin: 6px 0;
-}
-a {
-    color: var(--link);
+
+.entry-points li {
+    margin: 8px 0;
+    line-height: 1.45;
 }
 
 footer {
-    margin-top: 24px;
+    margin-top: 28px;
     color: var(--muted);
+    text-align: center;
+}
+
+/* Now text */
+#now {
+    transition: opacity 0.3s ease;
 }
