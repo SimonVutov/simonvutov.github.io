@@ -1,7 +1,7 @@
 document.getElementById('year').textContent = new Date().getFullYear()
 
 const nowEl = document.getElementById('now')
-const lines = ['Attending Computer Engineering Lectures + applying for co-ops.', 'Working on learning new DSA with C & Rust.', 'Training for a marathon: cycling + running.']
+const lines = ['Attending Computer Engineering Lectures.', 'Learning new DSA with C & Rust.', 'Training for a marathon: cycling + running.']
 
 let i = 0
 nowEl.textContent = lines[i]
