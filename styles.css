@@ -1,7 +1,7 @@
 :root {
     color-scheme: dark;
 
-    --bg: #3b506d;
+    --bg: #004565;
     --bg2: #000000;
     --text: #e6edf3;
     --muted: #b6c0cc;
@@ -9,7 +9,7 @@
     --link: #d19a66;
     --link-high: #ff8787;
 
-    --border: #293547;
+    --border: #ffffff57;
     --card-pad: 20px;
     --radius: 16px;
 }
@@ -90,9 +90,11 @@ a:hover {
     background: transparent;
     border-radius: var(--radius);
     padding: var(--card-pad);
-    margin: 16px 0;
+    margin: 12px 0;
     border-left: 4px solid var(--border);
     border-bottom: 4px solid var(--border);
+    backdrop-filter: blur(76px);
+    -webkit-backdrop-filter: blur(76px); /* for Safari */
 }
 
 /* shared entry styles (Experience + Projects) */

@@ -38,6 +38,61 @@ function shuffle(arr) {
     }
 }
 
+// --- Radial gradient center follows scroll ---
+// We'll animate the center of the radial gradient based on scroll position
+// and smoothly interpolate for a fun, clean effect.
+
+// --- Configurable scroll-to-gradient mapping ---
+// You can adjust these to set the gradient center at top and bottom scroll:
+const GRADIENT_TOP = { x: 30, y: -1 } // Center at top of page
+const GRADIENT_BOTTOM = { x: 70, y: 100 } // Center at bottom of page
+const CURSOR_WEIGHT = 0.08 // How much the cursor affects the center (0-1)
+
+const html = document.documentElement
+let targetX = GRADIENT_TOP.x
+let targetY = GRADIENT_TOP.y
+let currentX = targetX
+let currentY = targetY
+let cursorX = 0.5 // normalized (0-1)
+let cursorY = 0.5 // normalized (0-1)
+
+function updateGradient() {
+    // Interpolate currentX/currentY toward targetX/targetY
+    currentX += (targetX - currentX) * 0.25
+    currentY += (targetY - currentY) * 0.25
+    // Clamp values
+    currentX = Math.max(0, Math.min(100, currentX))
+    currentY = Math.max(0, Math.min(100, currentY))
+    // Set background
+    html.style.background = `radial-gradient(1200px 800px at ${currentX}% ${currentY}%, var(--bg), var(--bg2))`
+    requestAnimationFrame(updateGradient)
+}
+
+function onScroll() {
+    // Calculate scroll percentage (0 at top, 1 at bottom)
+    const scrollY = window.scrollY
+    const docHeight = document.body.scrollHeight - window.innerHeight
+    const scrollPercent = docHeight > 0 ? scrollY / docHeight : 0
+    // Interpolate between top and bottom positions
+    const baseX = GRADIENT_TOP.x + (GRADIENT_BOTTOM.x - GRADIENT_TOP.x) * scrollPercent
+    const baseY = GRADIENT_TOP.y + (GRADIENT_BOTTOM.y - GRADIENT_TOP.y) * scrollPercent
+    // Add a small cursor-based offset
+    targetX = baseX * (1 - CURSOR_WEIGHT) + cursorX * 100 * CURSOR_WEIGHT
+    targetY = baseY * (1 - CURSOR_WEIGHT) + cursorY * 100 * CURSOR_WEIGHT
+}
+
+function onMouseMove(e) {
+    cursorX = e.clientX / window.innerWidth
+    cursorY = e.clientY / window.innerHeight
+    onScroll() // Recalculate targetX/Y with new cursor
+}
+
+window.addEventListener('scroll', onScroll)
+window.addEventListener('mousemove', onMouseMove)
+// Initialize
+onScroll()
+requestAnimationFrame(updateGradient)
+
 let bag = [...lines]
 shuffle(bag)
 let idx = 0
