@@ -258,13 +258,6 @@ const projects = [
         link: 'https://github.com/SimonVutov/AirplaneManager',
         points: ['Designed flight routing system in C++ applying OOP principles (encapsulation, inheritance, polymorphism), pointers, and dynamic memory.', 'Implemented graph-based routing with BFS traversal for optimal flight path calculation.'],
     },
-    {
-        name: 'Node.js Tutorial Projects',
-        tech: 'JavaScript, Node.js, Backend',
-        date: 'Nov 2024',
-        link: 'https://github.com/SimonVutov/nodeJSTutorial',
-        points: ['Completed comprehensive Node.js tutorial projects.', 'Learned backend development with JavaScript.'],
-    },
 ]
 
 // --- Projects renderer ---
