@@ -102,6 +102,18 @@ const experiences = [
         ],
         chips: ['Next.js', 'FastAPI', 'FAISS', 'Airflow'],
     },
+    {
+        timeframe: 'Oct 2024 - Mar 2025',
+        position: 'Game Developer',
+        company: 'MOBOTIC GmbH',
+        location: 'Munich, Germany',
+        link: 'https://github.com/SimonVutov/mobotic2',
+        points: [
+            'Built Unity/C# simulation features for interactive mobile-robot demos and customer-facing visualization.',
+            'Implemented real-time 3D rendering and physics behavior to communicate robot capabilities clearly.',
+        ],
+        chips: ['Unity', 'C#', 'Simulation', 'Physics'],
+    },
 ]
 
 const projects = [
