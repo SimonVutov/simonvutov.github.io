@@ -1,310 +1,338 @@
 document.getElementById('year').textContent = new Date().getFullYear()
 
-const nowEl = document.getElementById('now')
-const lines = [
-    'Attending Computer Engineering Lectures.',
-    'Learning new DSA with C & Rust.',
-    'Training for a marathon.',
-    'Building physics simulations in Unity.',
-    'Implementing neural networks from scratch.',
-    'Exploring low-level systems programming.',
-    'Running 10k in under 45 minutes.',
-    'Cycling 35+ km/h on the road.',
-    'Playing ultimate frisbee.',
-    'Learning about a new interesting Rust Crate.',
-    'Designing realistic vehicle physics.',
-    'Studying differential equations and linear algebra.',
-    'Learning about transformer architectures.',
-    'Reading research papers on CS algorithms.',
-    'Building full-stack web applications.',
-    'Practicing sprint intervals on Zwift.',
-    'Learning about numerical methods and floats.',
-    'Debugging segmentation faults in C++.',
-    'Writing API endpoints in FastAPI.',
-    'Optimizing database queries with indexes.',
-    'Implementing graph traversal algorithms.',
-    'Refactoring code for better performance.',
-    'Learning about memory management.',
-    'Writing unit tests with Pytest.',
-    'Configuring Docker containers.',
-    'Studying computer architecture.',
-]
-
-// Fisher–Yates shuffle
-function shuffle(arr) {
-    for (let i = arr.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1))
-        ;[arr[i], arr[j]] = [arr[j], arr[i]]
-    }
-}
-
-// --- Radial gradient center follows scroll ---
-// We'll animate the center of the radial gradient based on scroll position
-// and smoothly interpolate for a fun, clean effect.
-
-// --- Configurable scroll-to-gradient mapping ---
-// You can adjust these to set the gradient center at top and bottom scroll:
-const GRADIENT_TOP = { x: 30, y: -1 } // Center at top of page
-const GRADIENT_BOTTOM = { x: 70, y: 100 } // Center at bottom of page
-const CURSOR_WEIGHT = 0.08 // How much the cursor affects the center (0-1)
-
-const html = document.documentElement
-let targetX = GRADIENT_TOP.x
-let targetY = GRADIENT_TOP.y
-let currentX = targetX
-let currentY = targetY
-let cursorX = 0.5 // normalized (0-1)
-let cursorY = 0.5 // normalized (0-1)
-
-function updateGradient() {
-    // Interpolate currentX/currentY toward targetX/targetY
-    currentX += (targetX - currentX) * 0.25
-    currentY += (targetY - currentY) * 0.25
-    // Clamp values
-    currentX = Math.max(0, Math.min(100, currentX))
-    currentY = Math.max(0, Math.min(100, currentY))
-    // Set background
-    html.style.background = `radial-gradient(1200px 800px at ${currentX}% ${currentY}%, var(--bg), var(--bg2))`
-    requestAnimationFrame(updateGradient)
-}
-
-function onScroll() {
-    // Calculate scroll percentage (0 at top, 1 at bottom)
-    const scrollY = window.scrollY
-    const docHeight = document.body.scrollHeight - window.innerHeight
-    const scrollPercent = docHeight > 0 ? scrollY / docHeight : 0
-    // Interpolate between top and bottom positions
-    const baseX = GRADIENT_TOP.x + (GRADIENT_BOTTOM.x - GRADIENT_TOP.x) * scrollPercent
-    const baseY = GRADIENT_TOP.y + (GRADIENT_BOTTOM.y - GRADIENT_TOP.y) * scrollPercent
-    // Add a small cursor-based offset
-    targetX = baseX * (1 - CURSOR_WEIGHT) + cursorX * 100 * CURSOR_WEIGHT
-    targetY = baseY * (1 - CURSOR_WEIGHT) + cursorY * 100 * CURSOR_WEIGHT
-}
-
-function onMouseMove(e) {
-    cursorX = e.clientX / window.innerWidth
-    cursorY = e.clientY / window.innerHeight
-    onScroll() // Recalculate targetX/Y with new cursor
-}
-
-window.addEventListener('scroll', onScroll)
-window.addEventListener('mousemove', onMouseMove)
-// Initialize
-onScroll()
-requestAnimationFrame(updateGradient)
-
-let bag = [...lines]
-shuffle(bag)
-let idx = 0
-
-nowEl.textContent = bag[idx]
+const typingWords = ['Learning', 'Building', 'Debugging', 'Shipping', 'Testing']
+const typingEl = document.getElementById('typing-word')
+let typingIndex = 0
 
 setInterval(() => {
-    nowEl.style.opacity = 0
+    typingIndex = (typingIndex + 1) % typingWords.length
+    typingEl.animate(
+        [
+            { opacity: 1, transform: 'translateY(0)' },
+            { opacity: 0, transform: 'translateY(8px)' },
+        ],
+        { duration: 160, easing: 'ease-out' }
+    ).onfinish = () => {
+        typingEl.textContent = typingWords[typingIndex]
+        typingEl.animate(
+            [
+                { opacity: 0, transform: 'translateY(-8px)' },
+                { opacity: 1, transform: 'translateY(0)' },
+            ],
+            { duration: 180, easing: 'ease-out' }
+        )
+    }
+}, 6800)
 
-    setTimeout(() => {
-        idx++
-        if (idx >= bag.length) {
-            shuffle(bag)
-            idx = 0
-        }
+const root = document.documentElement
 
-        nowEl.textContent = bag[idx]
-        nowEl.style.opacity = 1
-    }, 300)
-}, 3000)
+function mixChannel(start, end, amount) {
+    return Math.round(start + (end - start) * amount)
+}
 
-// --- Experience data ---
+function mixRgb(start, end, amount) {
+    return start.map((channel, index) => mixChannel(channel, end[index], amount)).join(' ')
+}
+
+function updateSkyGlow() {
+    const scrollProgress = Math.min((window.scrollY / Math.max(window.innerHeight, 1)) * 1.8, 1)
+    const glowProgress = scrollProgress * 0.75
+    const sizeProgress = scrollProgress
+
+    root.style.setProperty('--sky-blue-glow', mixRgb([57, 189, 248], [255, 82, 82], glowProgress))
+    root.style.setProperty('--sky-purple-glow', mixRgb([155, 92, 255], [255, 105, 180], glowProgress))
+    root.style.setProperty('--sky-blue-size', `${28 + 112 * sizeProgress}rem`)
+    root.style.setProperty('--sky-purple-size', `${22 + 88 * sizeProgress}rem`)
+}
+
+window.addEventListener('scroll', updateSkyGlow, { passive: true })
+window.addEventListener('resize', updateSkyGlow)
+updateSkyGlow()
+
 const experiences = [
     {
-        timeframe: 'Sept 2025 – Dec 2025',
+        timeframe: 'May 2026 - Present',
         position: 'Software Engineer Intern',
-        company: 'BitGo',
-        location: 'Palo Alto, CA (Remote)',
+        company: 'Deephaven',
+        location: 'Minneapolis, MN',
+        link: 'https://deephaven.io/',
         points: [
-            "Shipped security-critical intent verification preventing blind signing in Wallet Platform's TSS flows.",
-            'Built Prometheus metrics and Grafana dashboards tracking verification failures, improving incident response.',
-            'Implemented feature-flagged rollout enabling safe staging and debugging of security safeguards.',
-            'Designed reusable transaction parser for intent comparison across blockchain protocols.',
-            'Improved platform reliability by resolving 5xx errors and transaction validation issues.',
+            'Shipped TypeScript/React improvements across Deephaven Iris and web-client, including query-server dashboard badges, dashboard tooltips, and advanced filter dialogs.',
+            'Built algorithms and components for real-time tables with up to 10^15 cells, supporting Fortune 500 users processing live data.',
+            'Parallelized plugin end-to-end tests by browser, reducing runtime by over 70%.',
         ],
-        link: 'https://www.bitgo.com/',
+        chips: ['TypeScript', 'React', 'Data Systems', 'Testing'],
     },
     {
-        timeframe: 'Jan 2025 – Apr 2025',
+        timeframe: 'Apr 2026 - Present',
+        position: 'Firmware Developer',
+        company: 'UW Orbital',
+        location: 'Waterloo, ON',
+        link: 'https://www.uworbital.com/',
+        points: [
+            'Built cross-repository binary log compression for satellite firmware and ground-station tooling, reducing representative logs from 271 to 69 bytes.',
+            'Implemented host-testable C logging codec with generated file-ID tables, runtime-selectable binary output, and ARM cross-compile verification.',
+            'Mirrored the wire format in Python ground-station utilities with stream resynchronization, round trips, CLI decoding, and 23 pytest cases.',
+        ],
+        chips: ['C', 'Python', 'Firmware', 'Binary Protocols'],
+    },
+    {
+        timeframe: 'Sept 2025 - Dec 2025',
+        position: 'Software Engineer Intern',
+        company: 'BitGo',
+        location: 'Palo Alto, CA',
+        link: 'https://www.bitgo.com/',
+        points: [
+            "Shipped security-critical intent verification preventing blind signing in Wallet Platform's TSS flows.",
+            'Built Prometheus metrics and Grafana dashboards tracking verification failures and improving incident response.',
+            'Implemented feature-flagged rollout and reusable transaction parsing for safe deployment across blockchain protocols.',
+        ],
+        chips: ['Security', 'Backend', 'Prometheus', 'Grafana'],
+    },
+    {
+        timeframe: 'Jan 2025 - Apr 2025',
         position: 'Software Engineer Intern',
         company: 'GenerativeModels.AI',
         location: 'Toronto, ON',
-        points: [
-            'Built full-stack app with React/Next.js featuring custom editor, GPT co-writing, and AI generation.',
-            'Developed FastAPI backend with semantic search over 70k docs using FAISS, achieving sub 800ms responses.',
-            'Automated data ingestion with Docker-based Airflow processing 900k Amazon product listings.',
-        ],
         link: 'https://www.generativemodels.ai/',
-    },
-    {
-        timeframe: 'Oct 2024 – Mar 2025',
-        position: 'Unity Vehicle Simulation Developer',
-        company: 'MOBOTIC GmbH',
-        location: 'Remote',
-        points: ['Developed Unity C# simulation features showcasing mobile robot capabilities for customer demos.', 'Implemented realistic 3D rendering and physics to accurately represent product behavior.'],
-        // optional if you want to link the title
-        link: 'https://github.com/SimonVutov/mobotic2',
+        points: [
+            'Built full-stack React/Next.js and FastAPI product with custom editor, GPT co-writing, semantic search, and AI generation.',
+            'Implemented FAISS-backed semantic search over 70k documents with sub-800ms responses.',
+            'Automated Docker-based Airflow ingestion for 900k Amazon product listings.',
+        ],
+        chips: ['Next.js', 'FastAPI', 'FAISS', 'Airflow'],
     },
 ]
 
-// --- Experience renderer ---
-function renderExperience(items) {
-    const mount = document.getElementById('experience')
-    if (!mount) return
-
-    items.forEach((exp) => {
-        const section = document.createElement('section')
-        section.className = 'card'
-
-        const header = document.createElement('div')
-        header.className = 'entry-head'
-
-        const title = document.createElement('div')
-        title.className = 'entry-title'
-
-        // Optional link on company/title
-        if (exp.link) {
-            const a = document.createElement('a')
-            a.href = exp.link
-            a.target = '_blank'
-            a.rel = 'noreferrer'
-            a.textContent = `${exp.position} — ${exp.company}`
-            title.appendChild(a)
-        } else {
-            title.textContent = `${exp.position} — ${exp.company}`
-        }
-
-        const meta = document.createElement('div')
-        meta.className = 'entry-meta'
-        meta.textContent = `${exp.timeframe} • ${exp.location}`
-
-        header.appendChild(title)
-        header.appendChild(meta)
-
-        const ul = document.createElement('ul')
-        ul.className = 'entry-points'
-        exp.points.forEach((p) => {
-            const li = document.createElement('li')
-            li.textContent = p
-            ul.appendChild(li)
-        })
-
-        section.appendChild(header)
-        section.appendChild(ul)
-        mount.appendChild(section)
-    })
-}
-
-renderExperience(experiences)
-
-// --- Projects data ---
 const projects = [
     {
         name: 'Rust Notes Web App',
         tech: 'Rust, HTTP, Auth, REST API',
         date: 'Dec 2025',
         link: 'https://github.com/SimonVutov/Rust-API-Project',
-        points: ['Built Rust HTTP server with notes REST API supporting CRUD, pinning, tagging, and ordering.', 'Implemented secure auth with bcrypt hashing and expiring Bearer tokens.', 'Designed JSON persistence with timestamped change history for full auditability.'],
+        description:
+            'Rust HTTP server with authenticated notes CRUD, pinning, tagging, ordering, bcrypt password hashing, expiring Bearer tokens, and timestamped JSON persistence.',
     },
     {
-        name: 'SimpleCar2 - Realistic Car Physics',
+        name: 'Invariant',
+        tech: 'C++17, CMake, Numerical Methods',
+        date: '2026',
+        link: 'https://github.com/SimonVutov/invariant',
+        description:
+            'Header-only C++17 linear algebra and numerical methods library with matrix/vector operations, interpolation, Gaussian elimination, Jacobi iteration, and tests.',
+    },
+    {
+        name: 'SimpleCar2',
         tech: 'Unity, C#, Physics Simulation',
         date: 'Aug 2025',
         link: 'https://github.com/SimonVutov/SimpleCar2',
-        points: [
-            'Engineered advanced vehicle physics with custom suspension, torque curves, and traction control systems.',
-            'Implemented engine simulation with realistic gear ratios, RPM calculations, and angular acceleration.',
-            'Created a Youtube tutorial with 50k+ views demonstrating wide applicability and usefullness.',
-        ],
-    },
-    {
-        name: 'Cadence - Cycling Game',
-        tech: 'Unity, C#, Game Design',
-        date: 'Aug 2025',
-        link: 'https://github.com/SimonVutov/Cadence',
-        points: ['Developed cycling game for Brackeys Game Jam 2025.2 with theme "risk it for the biscuit".', 'Designed gameplay mechanics balancing risk-reward systems with intuitive controls.'],
-    },
-    {
-        name: 'C++ Neural Network',
-        tech: 'C++, Machine Learning',
-        date: 'May 2025',
-        link: 'https://github.com/SimonVutov/CPPNN',
-        points: ['Developed neural network implementation from scratch in C++.', 'Learned core machine learning concepts through low-level implementation.'],
-    },
-    {
-        name: 'Agent0 - AI Agent',
-        tech: 'Python, Jupyter Notebook, AI',
-        date: 'Jan 2025',
-        link: 'https://github.com/SimonVutov/Agent0',
-        points: ['Developed AI agent that can answer questions based on a FAISS index of your google drive documents.', 'Uses langchain and python.'],
+        description:
+            'Vehicle physics simulation with custom suspension, tire traction, torque curves, gear ratios, RPM calculations, and a 50k+ view technical tutorial.',
     },
     {
         name: 'MiniGPT Language Model',
-        tech: 'Python, PyTorch, Hugging Face, CUDA',
+        tech: 'Python, PyTorch, CUDA',
         date: 'Aug 2024',
         link: 'https://github.com/SimonVutov/miniGPT',
-        points: ['Developed transformer training framework using GPT architecture with mixed precision optimization.', 'Achieved 1.8x speedup leveraging FP16 mixed precision with NVIDIA Tensor Cores.'],
+        description:
+            'Transformer training framework using GPT architecture and FP16 mixed precision, reaching a 1.8x speedup with NVIDIA Tensor Cores.',
     },
     {
-        name: 'Flight Management System',
-        tech: 'C++, OOP, Data Structures, Algorithms',
-        date: 'Jun 2024',
-        link: 'https://github.com/SimonVutov/AirplaneManager',
-        points: ['Designed flight routing system in C++ applying OOP principles (encapsulation, inheritance, polymorphism), pointers, and dynamic memory.', 'Implemented graph-based routing with BFS traversal for optimal flight path calculation.'],
+        name: 'Rocket Landing Automation',
+        tech: 'Unity, C#, Control Systems',
+        date: 'Nov 2023',
+        link: 'https://github.com/SimonVutov/SpacexRocketSimulation',
+        description:
+            'Autonomous rocket-landing simulation with thrust vectoring and trajectory-control logic inspired by Falcon 9 recovery.',
+    },
+    {
+        name: 'Fluid Simulation',
+        tech: 'Unity, C#, Particle Systems',
+        date: 'Jul 2025',
+        link: 'https://github.com/SimonVutov/Fluid',
+        description:
+            'Large-scale particle fluid simulation exploring force calculations, position updates, and real-time visual motion.',
     },
 ]
 
-// --- Projects renderer ---
+function renderExperience(items) {
+    const mount = document.getElementById('experience')
+    if (!mount) return
+
+    items.forEach((exp) => {
+        const marker = document.createElement('div')
+        marker.className = 'timeline-marker reveal'
+        marker.innerHTML = '<div class="timeline-dot"></div><div class="timeline-line"></div>'
+
+        const section = document.createElement('article')
+        section.className = 'experience-card reveal'
+
+        const title = document.createElement('h3')
+        title.className = 'entry-title'
+        const linkStart = exp.link ? `<a href="${exp.link}" target="_blank" rel="noreferrer">` : ''
+        const linkEnd = exp.link ? '</a>' : ''
+        title.innerHTML = `${linkStart}${exp.position} <span class="entry-company">@ ${exp.company}</span>${linkEnd}`
+
+        const meta = document.createElement('p')
+        meta.className = 'entry-meta'
+        meta.textContent = `${exp.location} • ${exp.timeframe}`
+
+        const ul = document.createElement('ul')
+        ul.className = 'entry-points'
+        exp.points.forEach((point) => {
+            const li = document.createElement('li')
+            li.textContent = point
+            ul.appendChild(li)
+        })
+
+        const chips = document.createElement('div')
+        chips.className = 'chips'
+        exp.chips.forEach((chip) => {
+            const span = document.createElement('span')
+            span.className = 'chip'
+            span.textContent = chip
+            chips.appendChild(span)
+        })
+
+        section.append(title, meta, ul, chips)
+        mount.append(marker, section)
+    })
+}
+
 function renderProjects(items) {
     const mount = document.getElementById('projects')
     if (!mount) return
 
-    items.forEach((p) => {
-        const section = document.createElement('section')
-        section.className = 'card'
+    items.forEach((project) => {
+        const card = document.createElement('article')
+        card.className = 'project-card reveal'
 
-        const header = document.createElement('div')
-        header.className = 'entry-head'
+        const top = document.createElement('div')
+        top.className = 'project-top'
 
-        const title = document.createElement('div')
-        title.className = 'entry-title'
+        const title = document.createElement('h3')
+        title.textContent = project.name
 
-        if (p.link) {
-            const a = document.createElement('a')
-            a.href = p.link
-            a.target = '_blank'
-            a.rel = 'noreferrer'
-            a.textContent = p.name
-            title.appendChild(a)
-        } else {
-            title.textContent = p.name
-        }
+        const link = document.createElement('a')
+        link.className = 'project-link'
+        link.href = project.link
+        link.target = '_blank'
+        link.rel = 'noreferrer'
+        link.ariaLabel = `${project.name} repository`
+        link.textContent = '↗'
 
-        const meta = document.createElement('div')
-        meta.className = 'entry-meta'
-        meta.textContent = `${p.tech} • ${p.date}`
+        const rule = document.createElement('div')
+        rule.className = 'project-rule'
 
-        header.appendChild(title)
-        header.appendChild(meta)
+        const meta = document.createElement('p')
+        meta.className = 'project-meta'
+        meta.textContent = `${project.tech} • ${project.date}`
 
-        const ul = document.createElement('ul')
-        ul.className = 'entry-points'
-        p.points.forEach((pt) => {
-            const li = document.createElement('li')
-            li.textContent = pt
-            ul.appendChild(li)
-        })
+        const description = document.createElement('p')
+        description.textContent = project.description
 
-        section.appendChild(header)
-        section.appendChild(ul)
-        mount.appendChild(section)
+        top.append(title, link)
+        card.append(top, rule, meta, description)
+        mount.appendChild(card)
     })
 }
 
+renderExperience(experiences)
 renderProjects(projects)
+
+const revealObserver = new IntersectionObserver(
+    (entries) => {
+        entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('is-visible')
+                revealObserver.unobserve(entry.target)
+            }
+        })
+    },
+    { threshold: 0.12 }
+)
+
+document.querySelectorAll('.reveal').forEach((el) => revealObserver.observe(el))
+
+const canvas = document.getElementById('stars')
+const ctx = canvas.getContext('2d')
+let stars = []
+const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+
+function resizeStars() {
+    const ratio = window.devicePixelRatio || 1
+    canvas.width = window.innerWidth * ratio
+    canvas.height = window.innerHeight * ratio
+    canvas.style.width = `${window.innerWidth}px`
+    canvas.style.height = `${window.innerHeight}px`
+    ctx.setTransform(ratio, 0, 0, ratio, 0, 0)
+
+    const count = Math.floor(window.innerWidth * window.innerHeight * 0.00017)
+    stars = Array.from({ length: count }, () => ({
+        x: Math.random() * window.innerWidth,
+        y: Math.random() * window.innerHeight,
+        radius: Math.random() * 0.7 + 0.35,
+        opacity: Math.random() * 0.55 + 0.35,
+        speed: Math.random() * 0.8 + 0.4,
+        phase: Math.random() * Math.PI * 2,
+    }))
+}
+
+function drawStars() {
+    ctx.clearRect(0, 0, window.innerWidth, window.innerHeight)
+    stars.forEach((star) => {
+        const opacity = reducedMotion
+            ? star.opacity
+            : 0.3 + Math.abs(Math.sin(Date.now() * 0.001 * star.speed + star.phase)) * 0.55
+        ctx.beginPath()
+        ctx.arc(star.x, star.y, star.radius, 0, Math.PI * 2)
+        ctx.fillStyle = `rgba(255, 255, 255, ${opacity})`
+        ctx.fill()
+    })
+
+    if (!reducedMotion) requestAnimationFrame(drawStars)
+}
+
+resizeStars()
+drawStars()
+window.addEventListener('resize', resizeStars)
+
+function createShootingStar() {
+    if (reducedMotion) return
+
+    const field = document.getElementById('shooting-stars')
+    const star = document.createElement('span')
+    star.className = 'shooting-star'
+
+    const side = Math.floor(Math.random() * 4)
+    const offset = Math.random()
+    const starts = [
+        { x: offset * window.innerWidth, y: -20, angle: 45 },
+        { x: window.innerWidth + 20, y: offset * window.innerHeight, angle: 135 },
+        { x: offset * window.innerWidth, y: window.innerHeight + 20, angle: 225 },
+        { x: -20, y: offset * window.innerHeight, angle: 315 },
+    ]
+    const start = starts[side]
+    const distance = Math.max(window.innerWidth, window.innerHeight) * 1.2
+    const dx = Math.cos((start.angle * Math.PI) / 180) * distance
+    const dy = Math.sin((start.angle * Math.PI) / 180) * distance
+
+    star.style.left = `${start.x}px`
+    star.style.top = `${start.y}px`
+    star.style.transform = `rotate(${start.angle}deg)`
+    field.appendChild(star)
+
+    star.animate(
+        [
+            { transform: `translate(0, 0) rotate(${start.angle}deg) scaleX(0.8)`, opacity: 0 },
+            { opacity: 1, offset: 0.08 },
+            { transform: `translate(${dx}px, ${dy}px) rotate(${start.angle}deg) scaleX(1.6)`, opacity: 0 },
+        ],
+        { duration: Math.random() * 1000 + 1400, easing: 'linear' }
+    ).onfinish = () => star.remove()
+}
+
+if (!reducedMotion) {
+    createShootingStar()
+    setInterval(createShootingStar, 1350)
+}
