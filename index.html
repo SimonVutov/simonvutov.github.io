@@ -5,8 +5,16 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <meta
             name="description"
-            content="Simon Vutov is a Computer Engineering student at the University of Waterloo building systems, firmware, data tools, simulations, and full-stack software."
+            content="Simon Vutov is a University of Waterloo Computer Engineering student building reliable software across satellite firmware, real-time data, backend systems, and simulation."
         />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://simonvutov.github.io/" />
+        <meta property="og:title" content="Simon Vutov — Software, Systems & Firmware" />
+        <meta property="og:description" content="Computer Engineering at Waterloo. Building reliable software from browser interfaces to satellite firmware." />
+        <meta name="twitter:card" content="summary" />
+        <meta name="twitter:title" content="Simon Vutov — Software, Systems & Firmware" />
+        <meta name="twitter:description" content="Computer Engineering at Waterloo. Building reliable software from browser interfaces to satellite firmware." />
+        <link rel="canonical" href="https://simonvutov.github.io/" />
         <title>Simon Vutov</title>
         <link rel="icon" href="icon.png" />
         <link rel="stylesheet" href="styles.css" />
@@ -18,11 +26,13 @@
         <main>
             <section class="hero" id="top">
                 <div class="hero-inner">
-                    <p class="hero-name">Simon Vutov</p>
+                    <p class="availability"><span aria-hidden="true"></span>Open to Winter 2027 software, systems, and firmware internships</p>
+                    <h1 class="hero-name">Simon Vutov</h1>
                     <p class="hero-line">
-                        <span id="typing-word">Learning</span>
-                        reliable systems for real-world machines and data.
+                        <span id="typing-word">Shipping</span>
+                        reliable software from browser interfaces to satellite firmware.
                     </p>
+                    <p class="hero-context">Computer Engineering at the University of Waterloo · Previously Deephaven and BitGo</p>
                     <nav class="hero-links" aria-label="Primary links">
                         <a href="https://github.com/SimonVutov" target="_blank" rel="noreferrer" aria-label="GitHub">
                             <svg viewBox="0 0 24 24" aria-hidden="true">
@@ -65,19 +75,31 @@
                         </div>
                         <div class="intro-copy">
                             <p>
-                                Computer Engineering student at the University of Waterloo.
+                                I build reliable systems across firmware, backend infrastructure,
+                                real-time data, and simulation.
                             </p>
                             <p>
-                                I like projects where correctness and performance matter: binary logging
-                                for satellite firmware, real-time data tools, secure transaction flows,
-                                physics simulations, and low-level C++/Rust experiments.
+                                Most recently, I shipped cross-stack product infrastructure at Deephaven
+                                and security-critical transaction safeguards at BitGo. I currently develop
+                                flight software and ground-station tooling with UW Orbital.
                             </p>
                             <p>
-                                Software engineer, firmware developer, physics-simulation builder, and
-                                endurance-sports person. Currently working at Deephaven and building
-                                with UW Orbital.
+                                I gravitate toward difficult technical work where correctness and
+                                performance matter, from embedded software and C++ libraries to data
+                                tools and physics simulations.
                             </p>
                         </div>
+                    </section>
+
+                    <section>
+                        <div class="section-head">
+                            <div>
+                                <p class="section-kicker">Selected Contributions</p>
+                                <h2>Open Source</h2>
+                            </div>
+                            <a class="section-link" href="https://github.com/search?q=is%3Apr+author%3ASimonVutov&type=pullrequests" target="_blank" rel="noreferrer">All authored PRs ↗</a>
+                        </div>
+                        <div id="contributions" class="contribution-grid"></div>
                     </section>
 
                     <section>
@@ -144,7 +166,7 @@
 
                     <section class="contact">
                         <p class="section-kicker">Contact</p>
-                        <h2>Let’s build something difficult.</h2>
+                        <h2>Let’s build something that has to work.</h2>
                         <div class="contact-links">
                             <a href="mailto:SimonVutov1@gmail.com">SimonVutov1@gmail.com</a>
                             <a href="resume.pdf" target="_blank" rel="noreferrer">Resume</a>

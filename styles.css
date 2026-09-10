@@ -119,6 +119,25 @@ main {
     font-size: 0.78rem;
 }
 
+.availability {
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    margin-bottom: 14px;
+    color: #dce8f5;
+    font-size: 0.82rem;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+}
+
+.availability span {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #6ee7b7;
+    box-shadow: 0 0 0 5px rgba(110, 231, 183, 0.1), 0 0 16px rgba(110, 231, 183, 0.7);
+}
+
 .hero-name {
     margin-top: 10px;
     font-size: clamp(1.9rem, 4.4vw, 3.4rem);
@@ -138,6 +157,12 @@ main {
     font-weight: 300;
     color: #eef4fb;
     max-width: 620px;
+}
+
+.hero-context {
+    margin-top: 15px;
+    color: var(--muted);
+    font-size: 0.95rem;
 }
 
 #typing-word {
@@ -280,6 +305,17 @@ main {
     margin-bottom: 26px;
 }
 
+.section-link {
+    color: var(--muted);
+    font-size: 0.92rem;
+    font-weight: 700;
+    transition: color 180ms ease;
+}
+
+.section-link:hover {
+    color: var(--accent);
+}
+
 .timeline {
     display: grid;
     grid-template-columns: 32px minmax(0, 1fr);
@@ -355,6 +391,24 @@ main {
     margin-top: 16px;
 }
 
+.proof-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 14px;
+}
+
+.proof-links a {
+    color: var(--accent);
+    font-size: 0.86rem;
+    font-weight: 750;
+}
+
+.proof-links a:hover {
+    text-decoration: underline;
+    text-underline-offset: 3px;
+}
+
 .chip {
     border-radius: 999px;
     background: #30343d;
@@ -368,6 +422,65 @@ main {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 16px;
+}
+
+.contribution-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 14px;
+}
+
+.contribution-card {
+    min-height: 230px;
+    padding: 24px;
+    border: 1px solid rgba(255, 255, 255, 0.09);
+    border-radius: 12px;
+    background: linear-gradient(145deg, rgba(24, 28, 37, 0.94), rgba(17, 17, 22, 0.9));
+    transition: transform 180ms ease, border-color 180ms ease;
+}
+
+.contribution-card:hover {
+    transform: translateY(-4px);
+    border-color: rgba(57, 189, 248, 0.58);
+}
+
+.contribution-eyebrow {
+    color: var(--accent);
+    font-size: 0.76rem;
+    font-weight: 800;
+    letter-spacing: 0.11em;
+    text-transform: uppercase;
+}
+
+.contribution-heading {
+    display: flex;
+    align-items: start;
+    justify-content: space-between;
+    gap: 16px;
+    margin-top: 12px;
+}
+
+.contribution-heading h3 {
+    font-size: 1.25rem;
+    line-height: 1.15;
+}
+
+.contribution-heading span {
+    color: var(--faint);
+    font-weight: 800;
+}
+
+.contribution-card > strong {
+    display: block;
+    margin-top: 28px;
+    color: #fff;
+    font-size: clamp(1.8rem, 4vw, 2.7rem);
+    line-height: 1;
+}
+
+.contribution-card > p:last-child {
+    margin-top: 13px;
+    color: var(--muted);
 }
 
 .project-card,
@@ -514,6 +627,7 @@ footer {
     }
 
     .project-grid,
+    .contribution-grid,
     .stats {
         grid-template-columns: 1fr;
     }

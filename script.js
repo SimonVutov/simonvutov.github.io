@@ -1,6 +1,8 @@
+// Curated website subset of the canonical career evidence in LifeInfo.md.
+// Update LifeInfo.md first when a date, metric, or core accomplishment changes.
 document.getElementById('year').textContent = new Date().getFullYear()
 
-const typingWords = ['Learning', 'Building', 'Debugging', 'Shipping', 'Testing']
+const typingWords = ['Shipping', 'Building', 'Debugging', 'Testing']
 const typingEl = document.getElementById('typing-word')
 let typingIndex = 0
 
@@ -51,30 +53,38 @@ updateSkyGlow()
 
 const experiences = [
     {
-        timeframe: 'May 2026 - Present',
-        position: 'Software Engineer Intern',
-        company: 'Deephaven',
-        location: 'Minneapolis, MN',
-        link: 'https://deephaven.io/',
-        points: [
-            'Shipped TypeScript/React improvements across Deephaven Iris and web-client, including query-server dashboard badges, dashboard tooltips, and advanced filter dialogs.',
-            'Built algorithms and components for real-time tables with up to 10^15 cells, supporting Fortune 500 users processing live data.',
-            'Parallelized plugin end-to-end tests by browser, reducing runtime by over 70%.',
-        ],
-        chips: ['TypeScript', 'React', 'Data Systems', 'Testing'],
-    },
-    {
         timeframe: 'Apr 2026 - Present',
         position: 'Firmware Developer',
         company: 'UW Orbital',
         location: 'Waterloo, ON',
         link: 'https://www.uworbital.com/',
         points: [
-            'Built cross-repository binary log compression for satellite firmware and ground-station tooling, reducing representative logs from 271 to 69 bytes.',
-            'Implemented host-testable C logging codec with generated file-ID tables, runtime-selectable binary output, and ARM cross-compile verification.',
-            'Mirrored the wire format in Python ground-station utilities with stream resynchronization, round trips, CLI decoding, and 23 pytest cases.',
+            'Built a lossless C/Python binary logging protocol for satellite firmware and ground-station tooling, reducing representative logs from 271 to 69 bytes.',
+            'Added stream resynchronization, generated file-ID tables, cross-language golden vectors, runtime-selectable output, and ARM cross-compilation.',
+            'Validated the protocol with 11 GoogleTests and 23 pytest cases, and optimized alarm dequeue from O(n) shifting to O(1) pop.',
         ],
-        chips: ['C', 'Python', 'Firmware', 'Binary Protocols'],
+        chips: ['C', 'Python', 'ARM', 'Binary Protocols', 'Testing'],
+        proofLinks: [
+            { label: 'Firmware PR #716', url: 'https://github.com/UWOrbital/obc-firmware/pull/716' },
+            { label: 'Ground-station PR #89', url: 'https://github.com/UWOrbital/ground-station/pull/89' },
+        ],
+    },
+    {
+        timeframe: 'May 2026 - Aug 2026',
+        position: 'Software Engineer Intern',
+        company: 'Deephaven',
+        location: 'Remote',
+        link: 'https://deephaven.io/',
+        points: [
+            'Built a Java and React system for targeted UI banners with persistent storage, ACL enforcement, group-based resolution, CRUD events, dismissals, and timed expiration.',
+            'Designed 2D splitter-intersection resizing for deeply nested Golden Layout panels, including three- and four-way crossings and nine automated drag tests.',
+            'Sharded cross-browser Playwright suites across six jobs, cutting end-to-end CI runtime from 53 to 22 minutes while preserving coverage.',
+        ],
+        chips: ['TypeScript', 'React', 'Java', 'Python', 'Playwright'],
+        proofLinks: [
+            { label: '2D resizing PR #2701', url: 'https://github.com/deephaven/web-client-ui/pull/2701' },
+            { label: 'CI PR #1361', url: 'https://github.com/deephaven/deephaven-plugins/pull/1361' },
+        ],
     },
     {
         timeframe: 'Sept 2025 - Dec 2025',
@@ -149,21 +159,36 @@ const projects = [
         description:
             'Transformer training framework using GPT architecture and FP16 mixed precision, reaching a 1.8x speedup with NVIDIA Tensor Cores.',
     },
+]
+
+const contributions = [
     {
-        name: 'Rocket Landing Automation',
-        tech: 'Unity, C#, Control Systems',
-        date: 'Nov 2023',
-        link: 'https://github.com/SimonVutov/SpacexRocketSimulation',
-        description:
-            'Autonomous rocket-landing simulation with thrust vectoring and trajectory-control logic inspired by Falcon 9 recovery.',
+        eyebrow: 'UW Orbital · C/Python',
+        title: 'Lossless satellite binary logging',
+        result: '271 → 69 bytes',
+        description: 'Designed a compact cross-language wire format with corruption recovery, generated IDs, golden vectors, and ARM verification.',
+        link: 'https://github.com/UWOrbital/obc-firmware/pull/716',
     },
     {
-        name: 'Fluid Simulation',
-        tech: 'Unity, C#, Particle Systems',
-        date: 'Jul 2025',
-        link: 'https://github.com/SimonVutov/Fluid',
-        description:
-            'Large-scale particle fluid simulation exploring force calculations, position updates, and real-time visual motion.',
+        eyebrow: 'Deephaven · TypeScript',
+        title: 'Nested 2D panel resizing',
+        result: '9 drag tests',
+        description: 'Made a single interaction resize perpendicular splitters atomically across deeply nested three- and four-way intersections.',
+        link: 'https://github.com/deephaven/web-client-ui/pull/2701',
+    },
+    {
+        eyebrow: 'Deephaven · CI/CD',
+        title: 'Faster cross-browser CI',
+        result: '58% faster',
+        description: 'Distributed Playwright suites across six browser/shard jobs and merged their reports without reducing test coverage.',
+        link: 'https://github.com/deephaven/deephaven-plugins/pull/1361',
+    },
+    {
+        eyebrow: 'Deephaven · Python/React',
+        title: 'Controlled table state',
+        result: 'API → UI',
+        description: 'Added programmatic sorting and quick filters across Python APIs, serialized props, TypeScript state, and IrisGrid.',
+        link: 'https://github.com/deephaven/deephaven-plugins/pull/1358',
     },
 ]
 
@@ -206,7 +231,21 @@ function renderExperience(items) {
             chips.appendChild(span)
         })
 
-        section.append(title, meta, ul, chips)
+        if (exp.proofLinks?.length) {
+            const proof = document.createElement('div')
+            proof.className = 'proof-links'
+            exp.proofLinks.forEach((item) => {
+                const anchor = document.createElement('a')
+                anchor.href = item.url
+                anchor.target = '_blank'
+                anchor.rel = 'noreferrer'
+                anchor.textContent = `${item.label} ↗`
+                proof.appendChild(anchor)
+            })
+            section.append(title, meta, ul, chips, proof)
+        } else {
+            section.append(title, meta, ul, chips)
+        }
         mount.append(marker, section)
     })
 }
@@ -251,6 +290,31 @@ function renderProjects(items) {
 
 renderExperience(experiences)
 renderProjects(projects)
+
+function renderContributions(items) {
+    const mount = document.getElementById('contributions')
+    if (!mount) return
+
+    items.forEach((item) => {
+        const card = document.createElement('a')
+        card.className = 'contribution-card reveal'
+        card.href = item.link
+        card.target = '_blank'
+        card.rel = 'noreferrer'
+        card.innerHTML = `
+            <p class="contribution-eyebrow">${item.eyebrow}</p>
+            <div class="contribution-heading">
+                <h3>${item.title}</h3>
+                <span aria-hidden="true">↗</span>
+            </div>
+            <strong>${item.result}</strong>
+            <p>${item.description}</p>
+        `
+        mount.appendChild(card)
+    })
+}
+
+renderContributions(contributions)
 
 const revealObserver = new IntersectionObserver(
     (entries) => {
