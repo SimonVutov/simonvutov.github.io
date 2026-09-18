@@ -128,20 +128,20 @@ const experiences = [
 
 const projects = [
     {
-        name: 'Rust Notes Web App',
-        tech: 'Rust, HTTP, Auth, REST API',
-        date: 'Dec 2025',
-        link: 'https://github.com/SimonVutov/Rust-API-Project',
+        name: 'Invariant',
+        tech: 'C++17, pybind11, NumPy, CMake',
+        date: '2026',
+        link: 'https://github.com/SimonVutov/invariant/tree/codex/release-0.1-hardening',
         description:
-            'Rust HTTP server with authenticated notes CRUD, pinning, tagging, ordering, bcrypt password hashing, expiring Bearer tokens, and timestamped JSON persistence.',
+            'Reusable C++ numerical library with QR least-squares solving, NumPy-compatible Python bindings, packaging, CMake installation, and 13-job cross-platform CI.',
     },
     {
-        name: 'Invariant',
-        tech: 'C++17, CMake, Numerical Methods',
-        date: '2026',
-        link: 'https://github.com/SimonVutov/invariant',
+        name: 'CPPNN',
+        tech: 'C++, Python, Image Classification, Invariant',
+        date: '2025',
+        link: 'https://github.com/SimonVutov/CPPNN/tree/codex/polish-invariant-integration',
         description:
-            'Header-only C++17 linear algebra and numerical methods library with matrix/vector operations, interpolation, Gaussian elimination, Jacobi iteration, and tests.',
+            'C++ neural-network training plus an Invariant-backed CIFAR-10 pipeline: 91.16% MNIST test accuracy after five epochs and 54.14% CIFAR-10 test accuracy.',
     },
     {
         name: 'SimpleCar2',
@@ -152,12 +152,12 @@ const projects = [
             'Vehicle physics simulation with custom suspension, tire traction, torque curves, gear ratios, RPM calculations, and a 50k+ view technical tutorial.',
     },
     {
-        name: 'MiniGPT Language Model',
-        tech: 'Python, PyTorch, CUDA',
+        name: 'miniGPT',
+        tech: 'Python, PyTorch, Transformers, Testing',
         date: 'Aug 2024',
-        link: 'https://github.com/SimonVutov/miniGPT',
+        link: 'https://github.com/SimonVutov/miniGPT/tree/codex/portfolio-polish',
         description:
-            'Transformer training framework using GPT architecture and FP16 mixed precision, reaching a 1.8x speedup with NVIDIA Tensor Cores.',
+            '479K-parameter causal transformer with reproducible CPU checkpoint resumption; reduced Tiny Shakespeare held-out cross-entropy from 5.53 to 2.17 over 1,000 steps.',
     },
 ]
 
